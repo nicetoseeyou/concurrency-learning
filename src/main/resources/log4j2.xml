@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error" monitorInterval="30">
+    <properties>
+        <property name="LOG_HOME">logs</property>
+        <property name="LOG_FILE_NAME">concurrency-learning</property>
+        <property name="STDOUT_LAYOUT">%d{yyyy-MM-dd HH:mm:ss.SSS z} [%t] %-5level %logger{36} - %msg%n</property>
+        <property name="FILE_OUT_LAYOUT">%d{yyyy-MM-dd HH:mm:ss.SSS z} [%t] %-5level %logger{36} - %msg%n</property>
+    </properties>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${STDOUT_LAYOUT}"/>
+        </Console>
+        <RollingRandomAccessFile name="FILE_OUT" fileName="${LOG_HOME}/${LOG_FILE_NAME}.log"
+                                 filePattern="${LOG_HOME}/$${date:yyyy-MM-dd}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${FILE_OUT_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了10 -->
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <loggers>
+        <Logger name="lab.nice.concurrency" level="INFO" additivity="false">
+            <AppenderRef ref="FILE_OUT"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <!--建立一个默认的root的logger-->
+        <Root level="trace">
+            <AppenderRef ref="FILE_OUT"/>
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </loggers>
+</configuration>
