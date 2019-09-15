@@ -17,7 +17,7 @@
             <PatternLayout pattern="${FILE_OUT_LAYOUT}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="1 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了10 -->
             <DefaultRolloverStrategy max="10"/>
